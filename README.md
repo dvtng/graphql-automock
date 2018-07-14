@@ -94,3 +94,18 @@ test("likes count is hidden when there are no likes", () => {
   // Continue with test...
 });
 ```
+
+## API Reference
+
+### mockSchema
+
+```javascript
+function mockSchema(schema: String | GraphQLSchema);
+
+function mockSchema({
+  schema: String | GraphQLSchema,
+  mocks: { [String]: MockTypeResolverFn }
+});
+
+type MockTypeResolverFn = (source, args, context, info) => any;
+```
