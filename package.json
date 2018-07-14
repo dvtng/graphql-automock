@@ -1,0 +1,27 @@
+{
+  "name": "graphql-automock",
+  "version": "0.1.0",
+  "description": "Automock GraphQL schemas for better testing and development",
+  "main": "dist/index.js",
+  "author": "David Tang <tang.ddt@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "analyze": "ANALYZE_BUILD=true yarn build && open dist/stats.html",
+    "build": "NODE_ENV=production webpack",
+    "test": "jest"
+  },
+  "dependencies": {
+    "graphql": "^0.13.2",
+    "graphql-tools": "^3.0.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "clean-webpack-plugin": "^0.1.19",
+    "jest": "^23.4.1",
+    "webpack": "^4.8.3",
+    "webpack-cli": "^3.0.8",
+    "webpack-visualizer-plugin": "^0.1.11"
+  }
+}
