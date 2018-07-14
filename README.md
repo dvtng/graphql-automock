@@ -5,7 +5,7 @@
 ## Getting started
 
 Simply pass your GraphQL type definitions to `mockSchema` and
-you'll get back a schema that can respond to any valid query with mock data:
+you're ready to go:
 
 ```javascript
 import { mockSchema } from "graphql-automock";
@@ -55,7 +55,7 @@ Without any further configuration, this query will return:
         "content": "recentPosts.1.content",
         "likes": 2
       }
-    ];
+    ]
   }
 }
 ```
