@@ -1,13 +1,25 @@
 {
   "name": "graphql-automock",
   "version": "0.1.0",
-  "description": "Automock GraphQL schemas for better testing and development",
+  "description": "Automock GraphQL schemas for better testing",
   "main": "dist/index.js",
   "author": "David Tang <tang.ddt@gmail.com>",
   "license": "MIT",
+  "keywords": [
+    "graphql",
+    "schema",
+    "mock",
+    "test",
+    "apollo"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dvtng/graphql-automock"
+  },
   "scripts": {
     "analyze": "ANALYZE_BUILD=true yarn build && open dist/stats.html",
     "build": "NODE_ENV=production webpack",
+    "prepublishOnly": "yarn build",
     "test": "jest"
   },
   "dependencies": {
