@@ -97,7 +97,9 @@ test("likes count is hidden when there are no likes", () => {
 
 ## API Reference
 
-### mockSchema
+### mockSchema()
+
+Create a mocked GraphQL schema.
 
 ```javascript
 function mockSchema(schema: String | GraphQLSchema): GraphQLSchema;
@@ -108,7 +110,9 @@ function mockSchema({
 }): GraphQLSchema;
 ```
 
-### mockApolloClient
+### mockApolloClient()
+
+Create a mocked Apollo Client.
 
 ```javascript
 function mockApolloClient(schema: String | GraphQLSchema): ApolloClient;
@@ -117,6 +121,17 @@ function mockApolloClient({
   schema: String | GraphQLSchema,
   mocks: { [String]: MockResolverFn }
 }): ApolloClient;
+```
+
+### <MockApolloProvider>
+
+React component that renders a mocked ApolloProvider.
+
+```javascript
+<MockApolloProvider
+  schema={String | GraphQLSchema}
+  mocks={{ [String]: MockResolverFn }}
+>
 ```
 
 ### type MockResolverFn

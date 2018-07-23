@@ -16,6 +16,10 @@ module.exports = {
     rules: [{ test: /\.js$/, use: "babel-loader" }]
   },
 
+  performance: {
+    hints: false
+  },
+
   plugins: [
     new CleanWebpackPlugin(["dist"]),
     process.env.ANALYZE_BUILD === "true" ? new VisualizerPlugin() : () => {}
