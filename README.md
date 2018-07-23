@@ -25,18 +25,15 @@ const types = `
 
 const mocked = mockSchema(types);
 
-graphql(
-  mocked,
-  `
-    query {
-      recentPosts {
-        id
-        content
-        likes
-      }
-    }
-  `
-);
+const query = `{
+  recentPosts {
+    id
+    content
+    likes
+  }
+}`;
+
+graphql(mocked, query);
 ```
 
 Without any further configuration, this query will return:
