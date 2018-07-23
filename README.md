@@ -120,7 +120,7 @@ function mockApolloClient({
 }): ApolloClient;
 ```
 
-### <MockApolloProvider>
+### \<MockApolloProvider\>
 
 React component that renders a mocked ApolloProvider.
 
