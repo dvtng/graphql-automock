@@ -100,12 +100,27 @@ test("likes count is hidden when there are no likes", () => {
 ### mockSchema
 
 ```javascript
-function mockSchema(schema: String | GraphQLSchema);
+function mockSchema(schema: String | GraphQLSchema): GraphQLSchema;
 
 function mockSchema({
   schema: String | GraphQLSchema,
-  mocks: { [String]: MockTypeResolverFn }
-});
+  mocks: { [String]: MockResolverFn }
+}): GraphQLSchema;
+```
 
-type MockTypeResolverFn = (source, args, context, info) => any;
+### mockApolloClient
+
+```javascript
+function mockApolloClient(schema: String | GraphQLSchema): ApolloClient;
+
+function mockApolloClient({
+  schema: String | GraphQLSchema,
+  mocks: { [String]: MockResolverFn }
+}): ApolloClient;
+```
+
+### type MockResolverFn
+
+```javascript
+type MockResolverFn = (source, args, context, info) => any;
 ```
