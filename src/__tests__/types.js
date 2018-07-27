@@ -5,6 +5,10 @@ export const types = `
     recentPosts: [Post!]!
   }
 
+  type Mutation {
+    createPost(postInput: PostInput!): Post!
+  }
+
   interface User {
     id: ID!
   }
@@ -39,5 +43,10 @@ export const types = `
 
   type ImageContent {
     url: String!
+  }
+
+  input PostInput {
+    textContent: String
+    imageUrl: String
   }
 `;

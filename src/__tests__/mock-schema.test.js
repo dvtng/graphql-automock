@@ -127,3 +127,33 @@ it("allows override of mocks", async () => {
     }
   });
 });
+
+it("mocks mutations", async () => {
+  const mockedSchema = mockSchema(types);
+  const result = await graphql(
+    mockedSchema,
+    `
+      mutation {
+        createPost(postInput: { imageUrl: "foo" }) {
+          id
+          content {
+            ... on ImageContent {
+              url
+            }
+          }
+        }
+      }
+    `
+  );
+
+  expect(result).toEqual({
+    data: {
+      createPost: {
+        id: "createPost.id",
+        content: {
+          url: "createPost.content.url"
+        }
+      }
+    }
+  });
+});
