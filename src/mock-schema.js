@@ -6,6 +6,7 @@ import {
   GraphQLSchema
 } from "graphql/type";
 import { addMockFunctionsToSchema } from "graphql-tools";
+import { controlSchema } from "./schema-controller";
 
 const printPath = path => {
   return path.prev ? `${printPath(path.prev)}.${path.key}` : path.key;
@@ -23,7 +24,7 @@ export const mockSchema = params => {
     return mockSchema({ schema: params });
   }
 
-  const { mocks = {} } = params;
+  const { mocks = {}, controller = null } = params;
   const schema =
     typeof params.schema === "string"
       ? buildSchema(params.schema)
@@ -71,6 +72,10 @@ export const mockSchema = params => {
     schema,
     mocks: Object.assign(defaultMocks, mocks)
   });
+
+  if (controller) {
+    controlSchema(schema, controller);
+  }
 
   return schema;
 };

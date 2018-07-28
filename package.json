@@ -35,11 +35,13 @@
     "graphql-tools": "^3.0.1",
     "react": "^16.4.1",
     "react-apollo": "^2.1.9",
-    "react-dom": "^16.4.1"
+    "react-dom": "^16.4.1",
+    "rxjs": "^6.2.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "clean-webpack-plugin": "^0.1.19",

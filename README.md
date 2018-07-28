@@ -134,5 +134,5 @@ React component that renders a mocked ApolloProvider.
 ### type MockResolverFn
 
 ```javascript
-type MockResolverFn = (source, args, context, info) => any;
+type MockResolverFn = (parent, args, context, info) => any;
 ```
