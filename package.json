@@ -1,6 +1,6 @@
 {
   "name": "graphql-automock",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Automock GraphQL schemas for better testing",
   "main": "dist/index.js",
   "author": "David Tang <tang.ddt@gmail.com>",
