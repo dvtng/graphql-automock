@@ -1,7 +1,6 @@
 import { graphql, GraphQLError } from "graphql";
 import { mockSchema } from "../mock-schema";
 import { types } from "./types";
-import { SchemaController } from "../schema-controller";
 
 it("provides default mocks", async () => {
   const mockedSchema = mockSchema(types);
@@ -184,48 +183,5 @@ it("mocks errors", async () => {
       post: null
     },
     errors: [new GraphQLError("Error retrieving Post")]
-  });
-});
-
-it("allows schema to be controlled", async () => {
-  const controller = new SchemaController();
-  const mockedSchema = mockSchema({
-    schema: types,
-    controller
-  });
-
-  let result = null;
-  graphql(
-    mockedSchema,
-    `
-      {
-        me {
-          id
-        }
-        post(id: "1") {
-          id
-        }
-      }
-    `
-  ).then(_result => (result = _result));
-
-  // wait 100ms
-  await new Promise(resolve => {
-    setTimeout(resolve, 100);
-  });
-
-  expect(result).toBe(null);
-
-  await controller.run();
-
-  expect(result).toEqual({
-    data: {
-      me: {
-        id: "me.id"
-      },
-      post: {
-        id: "post.id"
-      }
-    }
   });
 });

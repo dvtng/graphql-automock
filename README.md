@@ -174,8 +174,7 @@ function mockSchema(schema: String | GraphQLSchema): GraphQLSchema;
 
 function mockSchema({
   schema: String | GraphQLSchema,
-  mocks: { [String]: MockResolverFn },
-  controller: SchemaController
+  mocks: { [String]: MockResolverFn }
 }): GraphQLSchema;
 ```
 
@@ -215,10 +214,11 @@ type MockResolverFn = (parent, args, context, info) => any;
 
 #### pause()
 
-Pause schema execution until it is explicitly resumed.
+Pause GraphQL execution until it is explicitly resumed.
 SchemaController starts in this state.
 
 #### run()
 
-Resume schema execution if it is paused. Returns a Promise that resolves when all pending GraphQL resolvers have finished executing.
-If the schema was not paused, returns a resolved Promise.
+Resume GraphQL execution if it is paused.
+Returns a Promise that resolves when all pending queries have finished executing.
+If execution was not paused, returns a resolved Promise.

@@ -6,7 +6,6 @@ import {
   GraphQLSchema
 } from "graphql/type";
 import { addMockFunctionsToSchema } from "graphql-tools";
-import { controlSchema } from "./schema-controller";
 
 const printPath = path => {
   return path.prev ? `${printPath(path.prev)}.${path.key}` : path.key;
@@ -72,10 +71,6 @@ export const mockSchema = params => {
     schema,
     mocks: Object.assign(defaultMocks, mocks)
   });
-
-  if (controller) {
-    controlSchema(schema, controller);
-  }
 
   return schema;
 };
