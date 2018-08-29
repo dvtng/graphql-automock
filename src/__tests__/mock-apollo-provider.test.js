@@ -16,7 +16,19 @@ const TestComponent = () => {
   `;
   return (
     <Query query={query}>
-      {({ data, loading }) => (loading ? "loading" : data.me.id)}
+      {({ data, loading, error }) => {
+        if (loading) {
+          return "loading";
+        }
+        if (error) {
+          if (error.graphQLErrors) {
+            return error.graphQLErrors[0].message;
+          } else if (error.networkError) {
+            return error.networkError.message;
+          }
+        }
+        return data.me.id;
+      }}
     </Query>
   );
 };
@@ -34,4 +46,27 @@ it("creates a working apollo provider", async () => {
   await controller.run();
 
   expect(root.toJSON()).toEqual("me.id");
+});
+
+it("propagates GraphQL errors", async () => {
+  const controller = new SchemaController();
+  const root = TestRenderer.create(
+    <MockApolloProvider
+      schema={types}
+      controller={controller}
+      mocks={{
+        ActiveUser: () => {
+          throw new Error("Error retrieving User");
+        }
+      }}
+    >
+      <TestComponent />
+    </MockApolloProvider>
+  );
+
+  expect(root.toJSON()).toEqual("loading");
+
+  await controller.run();
+
+  expect(root.toJSON()).toEqual("Error retrieving User");
 });

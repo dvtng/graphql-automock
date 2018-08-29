@@ -1,4 +1,4 @@
-import { graphql } from "graphql";
+import { graphql, GraphQLError } from "graphql";
 import { mockSchema } from "../mock-schema";
 import { types } from "./types";
 import { SchemaController } from "../schema-controller";
@@ -156,6 +156,34 @@ it("mocks mutations", async () => {
         }
       }
     }
+  });
+});
+
+it("mocks errors", async () => {
+  const mockedSchema = mockSchema({
+    schema: types,
+    mocks: {
+      Post: () => {
+        throw new Error("Error retrieving Post");
+      }
+    }
+  });
+  const result = await graphql(
+    mockedSchema,
+    `
+      {
+        post(id: "1") {
+          id
+        }
+      }
+    `
+  );
+
+  expect(result).toEqual({
+    data: {
+      post: null
+    },
+    errors: [new GraphQLError("Error retrieving Post")]
   });
 });
 
