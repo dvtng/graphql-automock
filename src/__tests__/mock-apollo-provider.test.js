@@ -21,11 +21,10 @@ const TestComponent = () => {
           return "loading";
         }
         if (error) {
-          if (error.graphQLErrors) {
+          if (error.graphQLErrors && error.graphQLErrors.length) {
             return error.graphQLErrors[0].message;
-          } else if (error.networkError) {
-            return error.networkError.message;
           }
+          return error.networkError.message;
         }
         return data.me.id;
       }}
@@ -69,4 +68,21 @@ it("propagates GraphQL errors", async () => {
   await controller.run();
 
   expect(root.toJSON()).toEqual("Error retrieving User");
+});
+
+it("propagates network errors", async () => {
+  const controller = new SchemaController();
+  const root = TestRenderer.create(
+    <MockApolloProvider schema={types} controller={controller}>
+      <TestComponent />
+    </MockApolloProvider>
+  );
+
+  expect(root.toJSON()).toEqual("loading");
+
+  await controller.run({
+    networkError: () => new Error("Disconnected")
+  });
+
+  expect(root.toJSON()).toEqual("Disconnected");
 });

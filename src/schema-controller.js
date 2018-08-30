@@ -5,7 +5,7 @@ export const PAUSED = "paused";
 export const RUNNING = "running";
 
 export class SchemaController {
-  state$ = new BehaviorSubject(PAUSED);
+  state$ = new BehaviorSubject({ name: PAUSED });
   pendingQueries$ = new BehaviorSubject(0);
 
   _beforeQuery() {
@@ -16,21 +16,21 @@ export class SchemaController {
     this.pendingQueries$.next(this.pendingQueries$.getValue() - 1);
   }
 
-  when(state) {
+  _when(stateName) {
     return this.state$
       .pipe(
-        filter(s => s === state),
+        filter(state => state.name === stateName),
         first()
       )
       .toPromise();
   }
 
   pause() {
-    this.state$.next(PAUSED);
+    this.state$.next({ name: PAUSED });
   }
 
-  run(options) {
-    this.state$.next(RUNNING);
+  run(options = {}) {
+    this.state$.next({ name: RUNNING, networkError: options.networkError });
     return this.pendingQueries$
       .pipe(
         sampleTime(0),

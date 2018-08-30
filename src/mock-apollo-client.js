@@ -9,7 +9,13 @@ const controllerLink = controller =>
   new ApolloLink((operation, forward) => {
     const observable = new Observable(observer => {
       controller._beforeQuery();
-      controller.when(RUNNING).then(() => {
+      controller._when(RUNNING).then(controllerState => {
+        if (controllerState.networkError) {
+          observer.error(controllerState.networkError());
+          controller._afterQuery();
+          return;
+        }
+
         forward(operation).subscribe({
           next: (...args) => observer.next(...args),
           error: (...args) => observer.error(...args),
