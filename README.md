@@ -76,36 +76,24 @@ To understand how these values are derived, see [Default values](#default-values
 
 ## Mocking react-apollo
 
-In addition to schema mocking, `<MockApolloProvider>` makes the testing of UI components much easier.
+In addition to schema mocking, `<MockApolloProvider>` makes the testing of your UI components much easier.
 
-Simply wrap your elements in a `<MockApolloProvider>`, and any
-`graphql()` and `<Query>` components in the tree will be able to function:
-
-```javascript
-import { MockApolloProvider } from "graphql-automock";
-
-<MockApolloProvider schema={types}>
-  <Post id="123" />
-</MockApolloProvider>;
-```
-
-One issue to be aware of when doing this is that components will first enter a loading state, before the query resolves and components re-render
-with the query result. You will most likely want to test both states. `SchemaController` allows you to step through schema execution to do just that:
+Wrapping components in a `<MockApolloProvider>` allows any `graphql()` and `<Query>` components in the tree to receive mock data.
+However note that components will first enter a loading state before the query resolves and components re-render.
+`<MockApolloProvider>`, together with a `controller`, allows you to step through GraphQL execution to test both loading and ready states.
 
 ```javascript
-import { SchemaController, MockApolloProvider } from "graphql-automock";
+import { MockApolloProvider, controller } from "graphql-automock";
 import TestUtils from "react-dom/test-utils";
 
 it("renders a Post", async () => {
-  const controller = new SchemaController();
   const tree = TestUtils.renderIntoDocument(
-    // Adding a controller pauses schema execution
-    <MockApolloProvider schema={types} controller={controller}>
+    <MockApolloProvider schema={types}>
       <Post id="123" />
     </MockApolloProvider>
   );
 
-  // Test loading state
+  // Execution is automatically paused, allowing you to test loading state
   const spinners = TestUtils.scryRenderedComponentsWithType(tree, Spinner);
   expect(spinners).toHaveLength(1);
 
@@ -171,17 +159,15 @@ mockSchema({
 
 ### Mocking network errors
 
-Since network errors are external to the GraphQL schema, they are generated with a `SchemaController`.
+Since network errors are external to the GraphQL schema, they are simulated through the `controller`.
 
 ```javascript
-import { SchemaController, MockApolloProvider } from "graphql-automock";
+import { MockApolloProvider, controller } from "graphql-automock";
 import TestUtils from "react-dom/test-utils";
 
 it("renders a Post", async () => {
-  const controller = new SchemaController();
   const tree = TestUtils.renderIntoDocument(
-    // Adding a controller pauses schema execution
-    <MockApolloProvider schema={types} controller={controller}>
+    <MockApolloProvider schema={types}>
       <Post id="123" />
     </MockApolloProvider>
   );
@@ -190,7 +176,7 @@ it("renders a Post", async () => {
   const spinners = TestUtils.scryRenderedComponentsWithType(tree, Spinner);
   expect(spinners).toHaveLength(1);
 
-  // Force a network error
+  // Simulate a network error
   await controller.run({
     networkError: () => new Error("Disconnected")
   });
@@ -244,7 +230,7 @@ function mockApolloClient(schema: String | GraphQLSchema): ApolloClient;
 function mockApolloClient({
   schema: String | GraphQLSchema,
   mocks: { [String]: MockResolverFn },
-  controller: SchemaController
+  controller: Controller
 }): ApolloClient;
 ```
 
@@ -256,7 +242,7 @@ React component that renders a mocked ApolloProvider.
 <MockApolloProvider
   schema={String | GraphQLSchema}
   mocks={{ [String]: MockResolverFn }}
-  controller={SchemaController}
+  controller={Controller}
 >
 ```
 
@@ -266,7 +252,9 @@ React component that renders a mocked ApolloProvider.
 type MockResolverFn = (parent, args, context, info) => any;
 ```
 
-### SchemaController
+### controller
+
+Gives precise control over GraphQL execution, as well as enabling network errors to be simulated.
 
 #### pause()
 
@@ -276,7 +264,7 @@ function pause(): void;
 
 Pause GraphQL execution until it is explicitly resumed.
 
-_SchemaController starts in this state._
+_Controller starts in this state._
 
 #### run()
 

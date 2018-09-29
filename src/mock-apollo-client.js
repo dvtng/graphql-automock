@@ -3,7 +3,7 @@ import { ApolloLink, Observable } from "apollo-link";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { graphql, print } from "graphql";
 import { mockSchema } from "./mock-schema";
-import { RUNNING } from "./schema-controller";
+import { RUNNING } from "./controller";
 
 const controllerLink = controller =>
   new ApolloLink((operation, forward) => {

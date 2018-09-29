@@ -4,7 +4,7 @@ import { filter, first, sampleTime } from "rxjs/operators";
 export const PAUSED = "paused";
 export const RUNNING = "running";
 
-export class SchemaController {
+export class Controller {
   state$ = new BehaviorSubject({ name: PAUSED });
   pendingQueries$ = new BehaviorSubject(0);
 

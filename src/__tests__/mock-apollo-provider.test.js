@@ -2,8 +2,8 @@ import React from "react";
 import { Query } from "react-apollo";
 import TestRenderer from "react-test-renderer";
 import gql from "graphql-tag";
-import { MockApolloProvider } from "../mock-apollo-provider";
-import { SchemaController } from "../schema-controller";
+import { MockApolloProvider, controller } from "../mock-apollo-provider";
+import { Controller } from "../controller";
 import { types } from "./types";
 
 const TestComponent = () => {
@@ -33,9 +33,8 @@ const TestComponent = () => {
 };
 
 it("creates a working apollo provider", async () => {
-  const controller = new SchemaController();
   const root = TestRenderer.create(
-    <MockApolloProvider schema={types} controller={controller}>
+    <MockApolloProvider schema={types}>
       <TestComponent />
     </MockApolloProvider>
   );
@@ -48,11 +47,9 @@ it("creates a working apollo provider", async () => {
 });
 
 it("propagates GraphQL errors", async () => {
-  const controller = new SchemaController();
   const root = TestRenderer.create(
     <MockApolloProvider
       schema={types}
-      controller={controller}
       mocks={{
         ActiveUser: () => {
           throw new Error("Error retrieving User");
@@ -71,9 +68,8 @@ it("propagates GraphQL errors", async () => {
 });
 
 it("propagates network errors", async () => {
-  const controller = new SchemaController();
   const root = TestRenderer.create(
-    <MockApolloProvider schema={types} controller={controller}>
+    <MockApolloProvider schema={types}>
       <TestComponent />
     </MockApolloProvider>
   );

@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 import { ApolloError } from "apollo-client";
 import { mockApolloClient } from "../mock-apollo-client";
 import { types } from "./types";
-import { SchemaController } from "../schema-controller";
+import { Controller } from "../controller";
 
 it("creates a queryable apollo client", async () => {
   const mockedClient = mockApolloClient(types);
@@ -20,7 +20,7 @@ it("creates a queryable apollo client", async () => {
 });
 
 it("allows client to be controlled", async () => {
-  const controller = new SchemaController();
+  const controller = new Controller();
   const mockedClient = mockApolloClient({ schema: types, controller });
 
   let result = null;
@@ -55,7 +55,7 @@ it("allows client to be controlled", async () => {
 });
 
 it("allows client to be controlled with a network error", async () => {
-  const controller = new SchemaController();
+  const controller = new Controller();
   const mockedClient = mockApolloClient({ schema: types, controller });
 
   const result = mockedClient
